@@ -1,4 +1,3 @@
-// Copyright 2016-2020, Pulumi Corporation.  All rights reserved.
 import * as azuread from "@pulumi/azuread";
 import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
@@ -38,7 +37,8 @@ const sshKey = new tls.PrivateKey("ssh-key", {
 
 
 const config = new pulumi.Config();
-const managedClusterName = config.get("managedClusterName") || "pxcdev-aks";
+const managedClusterName = config.get("managedClusterName") || "temp-cluster-aks";
+const linuxAdminName = config.get("linuxAdminName") || "testuser";
 const cluster = new containerservice.ManagedCluster(managedClusterName, {
     resourceGroupName: resourceGroup.name,
     agentPoolProfiles: [{
@@ -54,9 +54,9 @@ const cluster = new containerservice.ManagedCluster(managedClusterName, {
     }],
     dnsPrefix: resourceGroup.name,
     enableRBAC: true,
-    kubernetesVersion: "1.18.14",
+    kubernetesVersion: "1.22.6",
     linuxProfile: {
-        adminUsername: "testuser",
+        adminUsername: linuxAdminName,
         ssh: {
             publicKeys: [{
                 keyData: sshKey.publicKeyOpenssh,

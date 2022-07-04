@@ -1,2 +1,4 @@
 config:
   azure-native:location: WestUS
+  test-function-pulumi:linuxAdminName: pxcdev-vm-admin
+  test-function-pulumi:managedClusterName: pxcdev-aks
